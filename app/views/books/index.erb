@@ -1,0 +1,6 @@
+<h1>Here are all the books/poems</h1>
+
+<% @books.map do |book| %>
+    <h3><a href="books/<%= book.id %>"><%= book.title %></a></h3>
+    by <label><%= book.author %></label>
+<% end %>
