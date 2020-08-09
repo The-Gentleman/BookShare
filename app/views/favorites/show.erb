@@ -1,0 +1,12 @@
+<h1>Here is a list of your favorites</h1>
+
+<% if @favorite.user_id == current_user.id %>
+    <% Favorite.all.select do |fav| %>
+        <% if fav.user_id == current_user.id  %>
+                <h4><%= fav.title %></h1>
+                <%= fav.author %>
+        <% end %>
+    <% end %>
+<% else %>
+    <label>You dont have any favorites yet! Click <a href="/favorites/new">here</a> to select some.</label>
+<% end %>

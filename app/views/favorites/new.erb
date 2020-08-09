@@ -1,0 +1,12 @@
+<h1>Choose which book/poem you want to add to your favorites</h1>
+
+<form action="/favorites" method="POST">
+
+<% @favorites.map do |book| %>
+    <%= book.title %>
+    <input type="checkbox" name="title" value="<%= book.title %>"><br> 
+    <br>
+<% end %>
+
+<input type="submit" value="Add to favorites">
+</form>

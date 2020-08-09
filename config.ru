@@ -7,3 +7,4 @@ end
 run ApplicationController
 use UsersController
 use BooksController
+use FavoritesController
