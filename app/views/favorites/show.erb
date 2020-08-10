@@ -11,6 +11,9 @@
                 <br>
        <% end %> 
     <% end %>
+    <h4>Your comments:<h4>
+    <label><%= current_user.favorites.last.comments %></label>
+
 <% else %>
 <!-- if not, link to the checklist -->
     <label>You dont have any favorites yet! Click <a href="/favorites/new">here</a> to select some.</label>

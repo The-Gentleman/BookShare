@@ -6,11 +6,16 @@ class FavoritesController < ApplicationController
     end 
 
     post '/favorites' do 
-        # params.map do |param|
-        #     binding.pry
-        # end 
-        
-        # redirect to "/favorites/show"
+        # iterate through params hash
+        # access title ids to create favorite
+        params.each do |k,v|
+            if v.class == Array
+                v.each do |id|
+                    Favorite.find_or_create_by(user_id: current_user.id, book_id: id.to_i, comments: params[:comments])
+                end 
+            end 
+        end
+        redirect to "/favorites/show"
     end 
 
 #               READ
