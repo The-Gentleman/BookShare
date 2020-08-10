@@ -2,9 +2,9 @@
 
 <form action="/favorites" method="POST">
 
-<% @favorites.map do |book| %>
+<% @books.map do |book| %>
     <%= book.title %>
-    <input type="checkbox" name="title" value="<%= book.title %>"><br> 
+    <input type="checkbox" name="title_ids[]" value="<%= book.id %>"><br> 
     <br>
 <% end %>
 
