@@ -1,3 +1,11 @@
-<h2>Here are your favorites. Choose a book you'd like to replace.</h2>
+<h2>Edit your comment here.</h2>
+
+
+<form action="/favorites/<%= @favorite.id %>" method="POST">
+  <input type="hidden" name="_method" value="patch">
+
+  <input type="text" name="comments" value="<%= @favorite.comments %>">
+  <input type="submit" value="Edit Post">
+</form
 
 

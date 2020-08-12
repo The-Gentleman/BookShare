@@ -22,6 +22,18 @@ class FavoritesController < ApplicationController
     end 
 #               UPDATE 
 
+    get '/favorites/:id/edit' do 
+        @favorite = Favorite.find_by_user_id(current_user.id)
+        erb :'/favorites/edit'
+    end 
+
+    patch '/favorites/:id' do 
+        @favorite = Favorite.find(params[:id])
+        @favorite.update(comments: params[:comments])
+
+        redirect to "/favorites/#{@favorite.id}"
+    end 
+
 
 
 end 
