@@ -1,11 +1,20 @@
-<h2>Edit your comment here.</h2>
+<h1>Edit your favorites</h1>
+
 
 
 <form action="/favorites/<%= @favorite.id %>" method="POST">
   <input type="hidden" name="_method" value="patch">
 
-  <input type="text" name="comments" value="<%= @favorite.comments %>">
-  <input type="submit" value="Edit Post">
+<% Book.all.each do |book| %>
+    <% current_user_array = current_user.favorites.map{|fav| fav.book_id} %>
+    <% if !current_user_array.include?(book.id) %>
+        <label><%= book.title %><label>
+        <input type="checkbox" name="title_ids[]" value="<%= book.id %>"><br>
+    <br>
+    <% end %>
+<% end %>
+
+  <input type="submit" value="Edit Favorites">
 </form
 
 

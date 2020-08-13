@@ -6,10 +6,9 @@ class FavoritesController < ApplicationController
     end 
 
     post '/favorites' do 
-        ids = params[:title_ids]
+        ids = params[:title_ids].map{|id| id.to_i}
         ids.each do |id|
-            favorite = Favorite.find_or_create_by(user_id: current_user.id, book_id: id.to_i)
-            favorite.update(comments: params[:comments])
+            favorite = Favorite.find_or_create_by(user_id: current_user.id, book_id: id)
         end 
         redirect to '/favorites/show'
     end 
@@ -29,11 +28,35 @@ class FavoritesController < ApplicationController
 
     patch '/favorites/:id' do 
         @favorite = Favorite.find(params[:id])
-        @favorite.update(comments: params[:comments])
+        ids = params[:title_ids].map{|id| id.to_i}
+        ids.each do |id|
+            @favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: id)
+        end 
 
+        # Updates multiple records
+        # people = { 1 => { "first_name" => "David" }, 2 => { "first_name" => "Jeremy" } }
+        # Person.update(people.keys, people.values)
+        
         redirect to "/favorites/#{@favorite.id}"
     end 
 
+    #               DELETE
 
+    get '/favorites/:id/delete' do 
+        @favorite = Favorite.find(params[:id])
+        erb :'/favorites/delete'
+    end 
+
+    delete '/favorites/:id' do
+        ids = params[:title_ids].map{|id| id.to_i}
+
+        ids.map do |book_id|
+            Favorite.find_by(book_id: book_id).destroy
+        end 
+        redirect to '/favorites/show'
+    end 
 
 end 
+
+
+

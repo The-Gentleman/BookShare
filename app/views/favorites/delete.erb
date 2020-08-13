@@ -1,0 +1,18 @@
+<h1>Choose what to delete</h1>
+
+
+<form action="/favorites/<%= @favorite.id %>" method="POST">
+<input type="hidden" name="_method" value="delete">
+
+<% Book.all.select do |book| %>
+    <% current_user_array = current_user.favorites.map{|fav| fav.book_id} %>
+        <% if current_user_array.include?(book.id) %>
+            <%= book.title %>
+            <input type="checkbox" name="title_ids[]" value="<%= book.id %>"><br> 
+            <br>
+        <% end %>
+<% end %>
+<br>
+
+<input type="submit" value="Delete Favorites">
+</form>

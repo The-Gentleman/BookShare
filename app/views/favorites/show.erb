@@ -1,20 +1,20 @@
-<h1>Your current favorite(s). All worthy choices.</h1>
-<!--Check if the favorite instance belongs to the current user-->
-
-<% if @favorite.user_id == current_user.id %>
-<!-- if it is, iterate through favorite -->
-    <% Favorite.all.select do |fav| %>
-<!-- select the ones that has the same user id and current id -->
-      <% if fav.user_id == current_user.id  %> 
-<!-- if they match, display title,author, and comments -->
-                <h4><%= fav.book.title %></h1>
-                <%= fav.book.author %><br>
-                <br>
-       <% end %> 
-    <% end %>
-    <h4>Your comments:<h4>
-    <%= current_user.favorites.first.comments %><br>
+<% if @favorite == nil %>
+    <h1>You dont have any favorites yet! Click <a href="/favorites/new">here</a> to select some.</h1>
 <% else %>
-    <label>You dont have any favorites yet! Click <a href="/favorites/new">here</a> to select some.</label>
+    <h1>Your current favorite(s). All worthy choices.</h1>
+
+        <% if @favorite.user_id == current_user.id %>
+            <% Favorite.all.select do |fav| %>
+              <% if fav.user_id == current_user.id  %> 
+                        <h4><%= fav.book.title %></h1>
+                        <%= fav.book.author %><br>
+                        <br>
+               <% end %> 
+            <% end %>
+            
+        <a href="/favorites/<%= @favorite.id %>/edit">Edit Favorites</a>
+        <a href="/favorites/<%= @favorite.id %>/delete">Delete Favorites</a>
+
+        <% end %>
 <% end %>
-<a href="/favorites/<%= @favorite.id %>/edit">Edit Comment</a>
+
