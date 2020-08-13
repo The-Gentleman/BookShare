@@ -14,7 +14,18 @@
     <link rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
+     
     <div class="wrapper">
+    
+    <div class="nav">
+    <% if logged_in? %>
+        <a href='/users/show'>Your page</a>
+        <a href='/books'>Book List</a>
+        <a href='/favorites/new'>Add favorites</a>
+        <a href='/favorites/show'>View favorites</a>
+        <a href='/logout'>Logout</a>
+    <% end %>
+    </div>
 
         <%= yield %>
 

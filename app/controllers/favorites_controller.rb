@@ -32,11 +32,6 @@ class FavoritesController < ApplicationController
         ids.each do |id|
             @favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: id)
         end 
-
-        # Updates multiple records
-        # people = { 1 => { "first_name" => "David" }, 2 => { "first_name" => "Jeremy" } }
-        # Person.update(people.keys, people.values)
-        
         redirect to "/favorites/#{@favorite.id}"
     end 
 
