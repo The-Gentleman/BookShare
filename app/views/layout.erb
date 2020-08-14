@@ -16,6 +16,15 @@
   <body>
      
     <div class="wrapper">
+    <% if flash[:error] %>
+      <h3 style="color:red;"><%= flash[:error] %></h3>
+    <% end %>
+
+    <% if flash[:success] %>
+      <h3 style="color:green;"><%= flash[:success] %>
+    <% end %>
+
+
     
     <div class="nav">
     <% if logged_in? %>

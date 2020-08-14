@@ -6,11 +6,17 @@ class FavoritesController < ApplicationController
     end 
 
     post '/favorites' do 
-        ids = params[:title_ids].map{|id| id.to_i}
-        ids.each do |id|
-            favorite = Favorite.find_or_create_by(user_id: current_user.id, book_id: id)
+        if params[:title_ids] != nil
+            ids = params[:title_ids].map{|id| id.to_i}
+            ids.each do |id|
+                favorite = Favorite.find_or_create_by(user_id: current_user.id, book_id: id)
+            end 
+            flash[:success] = "Books successfully added."
+            redirect to '/favorites/show'
+        else 
+            flash[:error] = "You need to add stuff to your favorites list! At least one stuff."
+            redirect to '/favorites/new'
         end 
-        redirect to '/favorites/show'
     end 
 
 #               READ
@@ -28,11 +34,8 @@ class FavoritesController < ApplicationController
 
     patch '/favorites/:id' do 
         @favorite = Favorite.find(params[:id])
-        ids = params[:title_ids].map{|id| id.to_i}
-        ids.each do |id|
-            @favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: id)
-        end 
-        redirect to "/favorites/#{@favorite.id}"
+        @favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: params[:title_id].to_i)
+        redirect to '/favorites/show'
     end 
 
     #               DELETE
@@ -43,11 +46,7 @@ class FavoritesController < ApplicationController
     end 
 
     delete '/favorites/:id' do
-        ids = params[:title_ids].map{|id| id.to_i}
-
-        ids.map do |book_id|
-            Favorite.find_by(book_id: book_id).destroy
-        end 
+        Favorite.find(params[:id]).destroy
         redirect to '/favorites/show'
     end 
 

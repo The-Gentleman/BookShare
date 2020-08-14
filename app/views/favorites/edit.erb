@@ -1,4 +1,5 @@
-<h1>Edit your favorites</h1>
+<h1>Edit your favorites.</h1>
+<h3>Choosing one will replace the first book in your favorites list.</h3>
 
 <form action="/favorites/<%= @favorite.id %>" method="POST">
   <input type="hidden" name="_method" value="patch">
@@ -7,12 +8,12 @@
     <% current_user_array = current_user.favorites.map{|fav| fav.book_id} %>
     <% if !current_user_array.include?(book.id) %>
         <label><%= book.title %><label>
-        <input type="checkbox" name="title_ids[]" value="<%= book.id %>"><br>
+        <input type="checkbox" name="title_id" value="<%= book.id %>"><br>
     <br>
     <% end %>
 <% end %>
 
-  <input type="submit" value="Edit Favorites">
+  <input type="submit" value="Edit Favorites"><br>
 </form
 
 

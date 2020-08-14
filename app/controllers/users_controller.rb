@@ -8,8 +8,10 @@ class UsersController < ApplicationController
         @user = User.find_by_username(params[:username])
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
+            flash[:success] = "Greetings, #{@user.username}, Noble One."
             redirect to "/users/#{@user.id}"
         else 
+            flash[:error] = "You new here? You need to make an account to gain entry."
             redirect to '/login'
         end 
     end 
