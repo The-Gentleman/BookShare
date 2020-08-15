@@ -23,5 +23,10 @@ class ApplicationController < Sinatra::Base
     def logged_in?
       !!current_user
     end
+
+    def find_favorite
+      @favorite = Favorite.find(params[:id])
+    end
+
   end
 end

@@ -8,6 +8,7 @@ class FavoritesController < ApplicationController
     post '/favorites' do 
         if params[:title_ids] != nil
             ids = params[:title_ids].map{|id| id.to_i}
+
             ids.each do |id|
                 favorite = Favorite.find_or_create_by(user_id: current_user.id, book_id: id)
             end 
@@ -20,37 +21,46 @@ class FavoritesController < ApplicationController
     end 
 
 #               READ
-   
-    get '/favorites/:id' do 
-        @favorite = Favorite.find_by_user_id(current_user.id)
-        erb :'/favorites/show'
+    # show all current user favorites   
+    get '/favorites' do 
+        @favorites = current_user.favorites 
+        erb :'/favorites/index'
     end 
+
+
 #               UPDATE 
 
     get '/favorites/:id/edit' do 
-        @favorite = Favorite.find_by_user_id(current_user.id)
+        find_favorite
         erb :'/favorites/edit'
     end 
 
     patch '/favorites/:id' do 
-        @favorite = Favorite.find(params[:id])
-        @favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: params[:title_id].to_i)
-        redirect to '/favorites/show'
+        if params[:title_id] != nil
+            find_favorite
+            find_favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: params[:title_id].to_i)
+            flash[:success] = "Book successfully edited."
+            redirect to '/favorites/show'
+        else 
+            flash[:error] = "You need to add stuff to your edit list!"
+            redirect to '/favorites/new'
+        end 
     end 
+
+    # show a single favorite
+    get '/favorites/:id' do 
+        binding.pry
+        find_favorite
+        erb :'/favorites/show'
+    end 
+    
 
     #               DELETE
 
     get '/favorites/:id/delete' do 
-        @favorite = Favorite.find(params[:id])
-        erb :'/favorites/delete'
+        binding.pry
     end 
 
-    delete '/favorites/:id' do
-        Favorite.find(params[:id]).destroy
-        redirect to '/favorites/show'
-    end 
 
 end 
-
-
 
