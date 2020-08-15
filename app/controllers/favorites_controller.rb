@@ -27,33 +27,31 @@ class FavoritesController < ApplicationController
         erb :'/favorites/index'
     end 
 
-
+    # show a single favorite
+    get '/favorites/:id' do #find_favorite runs fine here
+        find_favorite
+        erb :'/favorites/show'
+    end 
+        
 #               UPDATE 
 
-    get '/favorites/:id/edit' do 
+    get '/favorites/:id/edit' do # favorite/edit form renders fine
         find_favorite
         erb :'/favorites/edit'
     end 
 
-    patch '/favorites/:id' do 
+    patch '/favorites/:id' do # this is where I get the error
         if params[:title_id] != nil
             find_favorite
             find_favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: params[:title_id].to_i)
             flash[:success] = "Book successfully edited."
-            redirect to '/favorites/show'
+            redirect to "/favorites/#{@favorite.id}"
         else 
             flash[:error] = "You need to add stuff to your edit list!"
             redirect to '/favorites/new'
         end 
     end 
 
-    # show a single favorite
-    get '/favorites/:id' do 
-        binding.pry
-        find_favorite
-        erb :'/favorites/show'
-    end 
-    
 
     #               DELETE
 

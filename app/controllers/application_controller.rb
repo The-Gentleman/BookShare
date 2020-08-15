@@ -27,6 +27,5 @@ class ApplicationController < Sinatra::Base
     def find_favorite
       @favorite = Favorite.find(params[:id])
     end
-
   end
 end
