@@ -1,4 +1,4 @@
-<% if @favorites == nil %>
+<% if @favorites.nil? || @favorites.empty? %>
     <h1>You dont have any favorites yet! Click <a href="/favorites/new">here</a> to select some.</h1>
 <% else %>
     <h1>Your current favorite(s). All worthy choices.</h1>
@@ -8,7 +8,7 @@
       <% fav.delete %>
     <% end %>
        <h4><%= fav.book.title %></h1>
-        <%= fav.book.author %> <a href='/favorites/<%= fav.id %>/edit'>Edit</a><br>
+        <%= fav.book.author %> <a href='/favorites/<%= fav.id %>'>View this book</a><br>
       <br>
     <% end %>
 

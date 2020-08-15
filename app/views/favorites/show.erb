@@ -1,2 +1,12 @@
 <h3><%= @favorite.book.title %></h3>
-<%= @favorite.book.author %>
+by <%= @favorite.book.author %><br>
+<br>
+<%= @favorite.book.description %><br>
+
+<button onclick="document.location='/favorites/<%= @favorite.id %>/edit'">Edit</button>
+<br>
+<form action="/favorites/<%= @favorite.id %>" method="POST">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" name="" value="Delete">
+</form>
+

@@ -10,10 +10,10 @@ class FavoritesController < ApplicationController
             ids = params[:title_ids].map{|id| id.to_i}
 
             ids.each do |id|
-                favorite = Favorite.find_or_create_by(user_id: current_user.id, book_id: id)
+                @favorite = Favorite.find_or_create_by(user_id: current_user.id, book_id: id)
             end 
             flash[:success] = "Books successfully added."
-            redirect to '/favorites/show'
+            redirect to "/favorites/#{@favorite.id}"
         else 
             flash[:error] = "You need to add stuff to your favorites list! At least one stuff."
             redirect to '/favorites/new'
@@ -28,26 +28,26 @@ class FavoritesController < ApplicationController
     end 
 
     # show a single favorite
-    get '/favorites/:id' do #find_favorite runs fine here
+    get '/favorites/:id' do 
         find_favorite
         erb :'/favorites/show'
     end 
         
 #               UPDATE 
 
-    get '/favorites/:id/edit' do # favorite/edit form renders fine
+    get '/favorites/:id/edit' do 
         find_favorite
         erb :'/favorites/edit'
     end 
 
-    patch '/favorites/:id' do # this is where I get the error
+    patch '/favorites/:id' do 
         if params[:title_id] != nil
             find_favorite
             find_favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: params[:title_id].to_i)
             flash[:success] = "Book successfully edited."
             redirect to "/favorites/#{@favorite.id}"
         else 
-            flash[:error] = "You need to add stuff to your edit list!"
+            flash[:error] = "You need to add a book to your edit list!"
             redirect to '/favorites/new'
         end 
     end 
@@ -55,8 +55,10 @@ class FavoritesController < ApplicationController
 
     #               DELETE
 
-    get '/favorites/:id/delete' do 
-        binding.pry
+    delete '/favorites/:id' do 
+        find_favorite.destroy
+        flash[:success] = "Book successfully deleted."
+        redirect to '/favorites'
     end 
 
 
