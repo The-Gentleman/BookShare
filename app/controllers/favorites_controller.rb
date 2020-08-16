@@ -44,7 +44,7 @@ class FavoritesController < ApplicationController
             find_favorite
             find_favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: params[:title_id].to_i)
             flash[:success] = "Book successfully edited."
-            redirect to "/favorites/#{@favorite.id}"
+            redirect to "/favorites/#{@favorite.id}"        
         else 
             flash[:error] = "You need to add a book to your edit list!"
             redirect to '/favorites/new'
