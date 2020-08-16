@@ -1,7 +1,7 @@
 class FavoritesController < ApplicationController 
 #               CREATE
     get '/favorites/new' do 
-        @books = Book.all
+        @books = Book.all.sort_by{|book| book.title}
         erb :'/favorites/new'
     end 
 
@@ -23,7 +23,7 @@ class FavoritesController < ApplicationController
 #               READ
     # show all current user favorites   
     get '/favorites' do 
-        @favorites = current_user.favorites 
+        @favorites = current_user.favorites
         erb :'/favorites/index'
     end 
 
@@ -34,7 +34,6 @@ class FavoritesController < ApplicationController
     end 
         
 #               UPDATE 
-
     get '/favorites/:id/edit' do 
         find_favorite
         erb :'/favorites/edit'
@@ -52,9 +51,7 @@ class FavoritesController < ApplicationController
         end 
     end 
 
-
     #               DELETE
-
     delete '/favorites/:id' do 
         find_favorite.destroy
         flash[:success] = "Book successfully deleted."
