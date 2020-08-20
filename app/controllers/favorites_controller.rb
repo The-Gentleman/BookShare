@@ -8,7 +8,6 @@ class FavoritesController < ApplicationController
     post '/favorites' do 
         if params[:title_ids] != nil
             ids = params[:title_ids].map{|id| id.to_i}
-
             ids.each do |id|
                 @favorite = Favorite.find_or_create_by(user_id: current_user.id, book_id: id)
             end 
@@ -35,14 +34,21 @@ class FavoritesController < ApplicationController
         
 #               UPDATE 
     get '/favorites/:id/edit' do 
-        find_favorite
-        erb :'/favorites/edit'
+        current_user_fav_id = current_user.favorites.map{|fav| fav.id}
+        if current_user_fav_id.include?(params[:id].to_i)
+            find_favorite
+            erb :'/favorites/edit'
+        else 
+            flash[:error] = "You are not authorized to make this edit."
+            redirect to "/favorites"
+        end 
+        # 487, 488, 489, 490
     end 
 
     patch '/favorites/:id' do 
         if params[:title_id] != nil
-            find_favorite
-            find_favorite = Favorite.update(@favorite.id, user_id: current_user.id, book_id: params[:title_id].to_i)
+            @favorite = find_favorite
+            @favorite.update(user_id: current_user.id, book_id: params[:title_id].to_i)
             flash[:success] = "Book successfully edited."
             redirect to "/favorites/#{@favorite.id}"        
         else 
@@ -53,9 +59,15 @@ class FavoritesController < ApplicationController
 
     #               DELETE
     delete '/favorites/:id' do 
-        find_favorite.destroy
-        flash[:success] = "Book successfully deleted."
-        redirect to '/favorites'
+        current_user_fav_id = current_user.favorites.map{|fav| fav.id}
+        if current_user_fav_id.include?(params[:id].to_i)
+            find_favorite.destroy
+            flash[:success] = "Book successfully deleted."
+            redirect to '/favorites'
+        else 
+            flash[:error] = "You are not authorized to delete."
+            redirect to "/favorites"
+        end 
     end 
 
 
